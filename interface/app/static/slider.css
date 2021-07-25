@@ -1,0 +1,45 @@
+body {
+  font-family: Arial, sans;
+}
+
+.content {
+  width: 600px;
+  margin: 50px auto;
+}
+
+.month-slider-wrapper .noUi-connect {
+  background-color: skyblue;
+  border: 2px solid #5bbce4;
+  box-shadow: none;
+}
+.month-slider-wrapper .noUi-tooltip {
+  white-space: nowrap;
+}
+.month-slider-wrapper .noUi-pips {
+  top: 70%;
+}
+.month-slider-wrapper .noUi-pips .noUi-marker {
+  display: none;
+}
+.month-slider-wrapper .noUi-pips .noUi-value {
+  font-size: 0.8em;
+}
+.month-slider-wrapper .noUi-handle {
+  font-size: 0.8em;
+  background-color: skyblue;
+  box-shadow: none;
+  border: 2px solid #5bbce4;
+  border-radius: 15px;
+  width: 30px;
+  height: 30px;
+}
+.month-slider-wrapper .noUi-handle:before, .month-slider-wrapper .noUi-handle:after {
+  display: none;
+}
+.month-slider-wrapper .noUi-handle .noUi-tooltip {
+  bottom: -175%;
+}
+
+.sample-submit-data {
+  display: none;
+}

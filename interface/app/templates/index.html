@@ -1,0 +1,74 @@
+<html lang="en">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.min.css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='slider.css') }}">
+    <title>Building Responsible, Data-Driven Visualization Recommendation Systems</title>
+    <style>html {
+        min-height: 100%;
+        height: 100%;
+    }
+
+    body {
+        font: normal 15px/25px Georgia, serif;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+        background-color: #fff;
+        min-height: 100%;
+        height: 100%;
+        background-image: -moz-linear-gradient(90deg, #e0e0e0, #fff);
+        background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0, #e0e0e0), color-stop(0.25, #fff));
+        background-repeat: repeat-x;
+    }
+
+    h1 {
+        text-align: center;
+        text-shadow: #fff 0 1px 0, #ccc 0 -1px 0;
+    }
+
+    h2 {
+        font-size: 16px;
+        margin: 5px 0;
+    }
+
+    div {
+        text-align: left;
+        width: 70%;
+        margin: 0 auto;
+        padding: 50px 15px 30px;
+    }
+
+    footer small {
+        color: #ccc;
+        font-size: 12px;
+    }</style>
+</head>
+<body>
+<div>
+    <h1>
+        Building Responsible, Data-Driven Visualization Recommendation Systems
+    </h1>
+</div>
+<div>
+    <p style="font-size: 16px">
+        This is a proof-of-concept demo for a new recommendation feature for interactive visualization designs.
+        <br>
+        <br>
+        In this setup, you can choose to have the tool demo the different recommendations and charts it can handle,
+        which will activate hard-coded vega-lite specs, or upload your own (simple) vega-lite spec and find potential
+        problems in the data therein.
+        <br>
+        <br>
+        The interactive visualization can be found <a href="intviz">here</a>.
+    </p>
+</div>
+</body>
+</html>

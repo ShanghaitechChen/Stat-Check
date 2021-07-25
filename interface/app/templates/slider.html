@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/9.0.0/nouislider.min.css'>
+    <link rel="stylesheet" href="{{ url_for('static', filename='slider.css') }}">
+    <link rel='stylesheet' href='static/prism.css'>
+    <link rel='stylesheet' href="static/prism-live.css">
+    <title>Building Responsible, Data-Driven Visualization Recommendation Systems</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font: normal 15px/20px Georgia, serif;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #fff;
+            min-height: 100%;
+            height: 100%;
+            background-image: -moz-linear-gradient(90deg, #e0e0e0, #fff);
+            background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, color-stop(0, #e0e0e0), color-stop(0.25, #fff));
+            background-repeat: repeat-x;
+        }
+
+        .mainbox {
+            width: 45%;
+            margin-left: 10px;
+            float: left
+        }
+
+        .xy {
+            width: 100%;
+            height: 200px;
+            border: 3px solid #909090;
+            background-color: #F5F5F5;
+        }
+
+        .vega_input {
+            width: 100%;
+            height: 700px;
+            border: 3px solid #909090;
+            background-color: #F5F5F5;
+        }
+
+        .mainchart {
+            width: 100%;
+            border: 3px solid #909090;
+            margin-top: -3px;
+        }
+
+        .column2 {
+            float: left;
+            background-color: #FFFFEE;
+            width: 50%;
+            margin: 0 20px 20px;
+            padding: 20px;
+        }
+
+        .vertical-center {
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            -ms-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+
+    </style>
+</head>
+<body>
+<div>
+    <p style="text-align: center; font-size: 1.7em; margin-top:15px;margin-bottom:10px"> Building Responsible,
+        Data-Driven Visualization Recommendation Systems </p>
+</div>
+<div class="mainbox">
+    <div class="xy">
+        <p style="text-align: left; font-size: 1.2em; margin-left: 15px;"> Dataset selection: </p>
+        <p style="margin-top: -10px; margin-left: 15px;"> Choose a provided demo dataset by selecting "Type of Chart"
+            and "Data Issue" below, or you can submit your own dataset using the "Choose File" button. The Vega-Lite
+            spec will be generated (1) by clicking "Generate Vega-Lite Spec" button for the demos and (2) automatically
+            for personal datasets.</p>
+        <div style="float:left">
+            <p style="margin-left: 15px; margin-bottom: 5px">Type of Chart:</p>
+            <select id="chart" style="margin-left: 10px">
+                <option value="bar">Bar Chart</option>
+                <option value="line">Line Chart</option>
+                <option value="point">Scatter Plot</option>
+            </select>
+        </div>
+        <div style="float:left">
+            <p style="margin-left: 30px; margin-bottom: 5px">Data Issue:</p>
+            <select id="statSelect" style="margin-left: 20px">
+                <option value="asym">Asymmetrical Distribution</option>
+                <option value="outliers">Outliers</option>
+                <option value="missing">Missing Values</option>
+                <option value="duplicates">Duplicate Entry</option>
+                <option value="none">None</option>
+            </select>
+        </div>
+        <div style="float:left">
+            <p style="margin-left: 30px; margin-bottom: 5px">Generate Spec</p>
+            <input style="margin-left: 30px" type="submit" value="Submit" id="toggle2" onclick='DemoCode()'>
+        </div>
+        <div style="float:left">
+            <p style="margin-left: 40px; margin-bottom: 5px">Or:</p>
+            <input style="margin-left: 40px" type="file" id="loadfile" name="loadfile" onchange='load_spec_from_file()'>
+        </div>
+    </div>
+    <div class="vega_input">
+        <p style="font-size: 1.2em; margin-left: 20px;"> Vega-Lite specification: </p>
+        <p style="margin-top: -10px; margin-left: 20px;">After the Vega-Lite spec is generated below, click "Submit"
+            bottom to see the Stat-Check results on the right hand side. For an uploaded dataset, we assume it contains
+            2-dimensional nominal-versus-quantitative tuples. You can directly modify the spec below as you want.</p>
+        <div style="float:left; margin-left: 20px; width: 97%">
+          <textarea style="resize: none; width: 100%" name="message" id="message" rows="28">
+          </textarea>
+            <br><br>
+            <p style="text-align: center; margin-top: -10px">
+                <input type="submit" id="toggle2" onclick='toggle2()'>
+            </p>
+        </div>
+    </div>
+</div>
+
+<div id="rbox" class="column2" style="border: 3px solid #3DB39E; display: none">
+    <div class="mainchart" id="mainchart" style="">
+        <p style="margin-top: 10px; margin-left: 20px;"> The original chart : </p>
+        <div id="myDiv"></div>
+    </div>
+    <p id="rhead" style="text-align: center"><img src="/static/checked.png" style="width: 50px;"></p>
+    <p id="rtext" style="font-size: .8em"></p>
+    <div id="rbody">
+        <div id="myRangeContainer">
+            <!--<div class="vertical-center">-->
+                <p style="font-size: .8em; float:left; margin-right: 30px; position: relative;
+                     top: -10px">Threshold: <span id="myRangeText"></span></p>
+            <!--</div>-->
+            <!--<div class="vertical-center">-->
+                <input type="range" min="0" max="1000" value="0" id="myRange" style="width: 62%; float:left"
+                    oninput='range_slider_change()'>
+            <!--</div>-->
+        </div>
+        <div id="missingDropdownContainer" style="clear:both">
+            <select id="missingDropdown" onchange="missing_dropdown_change()">
+                <option value="omit">Omit from dataset</option>
+                <option value="replace">Default to 0</option>
+            </select>
+        </div>
+        <div id="duplicateDropdownContainer" style="clear:both">
+            <select id="duplicateDropdown" onchange="duplicate_dropdown_change()">
+                <option value="aggregate">Aggregate y-axis</option>
+                <option value="omit">Omit duplicates</option>
+            </select>
+            <select style="display: none;" id="duplicateAggregateDropdown" onchange="duplicate_dropdown_change()">
+                <option value="average">Average</option>
+                <option value="max">Maximum</option>
+                <option value="median">Median</option>
+                <option value="min">Minimum</option>
+                <option value="sum">Sum</option>
+            </select>
+        </div>
+        <div style="max-height: 200px; overflow-y: scroll; clear:both">
+            <p id="flaggedData" style="font-size: .8em"></p>
+        </div>
+        <div id="myDiv2"></div>
+        <input style="margin-left: 0px" type="submit" value="Adopt this spec" id="btn_update" onclick='btn_update_onclick()'>
+    </div>
+</div>
+
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='process.js') }}"></script>
+
+<script src="https://vega.github.io/vega/vega.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega@5.10.1"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@4.11.0"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.6.0"></script>
+<script src="static/prism.js" charset="utf-8"></script>
+<script src="static/prism-live.js?load=json" charset="utf-8"></script>
+
+</body>
+</html>
